@@ -56,6 +56,17 @@
             document.getElementById('new-login').value = '';
             document.getElementById('new-senha').value = '';
         }
-    </script>
+    // Função para exibir os produtos cadastrados
+    function exibirProdutos() {
+        const listaProdutos = document.getElementById("listaProdutosLogin");
+        listaProdutos.innerHTML = "";
+
+        produtos.forEach((produto) => {
+            const item = document.createElement("li");
+            item.textContent = `Código: ${produto.codigo}, Nome: ${produto.nome}, Marca: ${produto.marca}, Preço: ${produto.preco.toFixed(2)}`;
+            listaProdutos.appendChild(item);
+        });
+    }
+</script>
 </body>
 </html>

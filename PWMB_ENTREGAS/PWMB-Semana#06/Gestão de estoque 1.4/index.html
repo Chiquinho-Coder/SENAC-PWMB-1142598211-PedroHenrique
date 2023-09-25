@@ -24,6 +24,10 @@
     </nav>
     <main>
         <iframe src="html/inicio.html" name="centro"></iframe>
+    
+    <ul id="listaProdutosIndex">
+        <!-- Produtos serão exibidos aqui -->
+    </ul>
     </main>
     <footer>
         <p>&copy; 2023 Gustavo Sanchez / Pedro Henrique</p>
@@ -33,6 +37,17 @@
             localStorage.setItem("redirecionado", "true");
             window.location.href = "html/login.html";
         }
-    </script>
+    // Função para exibir os produtos cadastrados
+    function exibirProdutos() {
+        const listaProdutos = document.getElementById("listaProdutosIndex");
+        listaProdutos.innerHTML = "";
+
+        produtos.forEach((produto) => {
+            const item = document.createElement("li");
+            item.textContent = `Código: ${produto.codigo}, Nome: ${produto.nome}, Marca: ${produto.marca}, Preço: ${produto.preco.toFixed(2)}`;
+            listaProdutos.appendChild(item);
+        });
+    }
+</script>
 </body>
 </html>
