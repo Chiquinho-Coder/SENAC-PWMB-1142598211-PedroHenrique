@@ -23,6 +23,7 @@
             color: white;
             width: 250px;
             padding: 20px;
+            
         }
         .sidebar ul {
             list-style-type: none;
@@ -79,6 +80,20 @@
         .required {
             color: red;
         }
+        /* Estilos para a tabela */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            padding: 8px 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
     </style>
 </head>
 <body>
@@ -87,15 +102,15 @@
             <h2>Menu</h2>
             <ul>
                 <li><a href="#cadastrar">Cadastrar Produtos</a></li>
-                <li><a href="#listar">Listar Produtos</a></li>
+                <li><a href="#" onclick="exibirProdutos()">Listar Produtos</a></li>
                 <li><a href="#excluir">Excluir Produtos</a></li>
                 <li><a href="#alterar">Alterar Produtos</a></li>
                 <li><a href="#estoque">Controle de Estoque</a></li>
             </ul>
         </div>
-
+    
         <div class="content">
-            <form method="post" action="salvar.js">
+            <form method="post" action="#">
                 <h1>Cadastro de Produtos</h1>
                 <p>
                     <label for="codigo">Código:<span class="required">*</span></label>
@@ -111,13 +126,84 @@
                 </p>
                 <p>
                     <label for="preco">Preço:<span class="required">*</span></label>
-                    <input type="number" name="preco" id="preco" step="0.1" required>
+                    <input type="number" name="preco" id="preco" step="0.01" required>
                 </p>
                 <p>
-                    <input type="submit" value="Salvar">
+                    <input type="button" value="Cadastrar Produto" onclick="cadastrarProduto()">
                 </p>
             </form>
+    
+            <!-- Tabela para exibir os produtos cadastrados -->
+            <h2>Produtos Cadastrados</h2>
+            <table id="tabelaProdutos">
+                <thead>
+                    <tr>
+                        <th>Código</th>
+                        <th>Nome</th>
+                        <th>Marca</th>
+                        <th>Preço</th>
+                    </tr>
+                </thead>
+                <tbody id="listaProdutos">
+                    <!-- Produtos serão exibidos aqui -->
+                </tbody>
+            </table>
         </div>
     </div>
+    
+    <script>
+        // Array para armazenar os produtos
+        const produtos = [];
+    
+        // Função para cadastrar um novo produto
+        function cadastrarProduto() {
+            const codigo = document.getElementById("codigo").value;
+            const nome = document.getElementById("nome").value;
+            const marca = document.getElementById("marca").value;
+            const preco = parseFloat(document.getElementById("preco").value);
+    
+            const novoProduto = {
+                codigo: codigo,
+                nome: nome,
+                marca: marca,
+                preco: preco
+            };
+    
+            produtos.push(novoProduto);
+    
+            // Limpar os campos do formulário após o cadastro
+            document.getElementById("codigo").value = "";
+            document.getElementById("nome").value = "";
+            document.getElementById("marca").value = "";
+            document.getElementById("preco").value = "";
+    
+            // Exibir os produtos cadastrados
+            exibirProdutos();
+        }
+    
+        // Função para exibir os produtos cadastrados
+        function exibirProdutos() {
+            const tabelaProdutos = document.getElementById("tabelaProdutos");
+            const listaProdutos = document.getElementById("listaProdutos");
+            listaProdutos.innerHTML = "";
+    
+            produtos.forEach((produto) => {
+                const row = tabelaProdutos.insertRow();
+                const codigoCell = row.insertCell(0);
+                const nomeCell = row.insertCell(1);
+                const marcaCell = row.insertCell(2);
+                const precoCell = row.insertCell(3);
+    
+                codigoCell.innerHTML = produto.codigo;
+                nomeCell.innerHTML = produto.nome;
+                marcaCell.innerHTML = produto.marca;
+                precoCell.innerHTML = produto.preco.toFixed(2);
+    
+                const item = document.createElement("li");
+                item.textContent = `Código: ${produto.codigo}, Nome: ${produto.nome}, Marca: ${produto.marca}, Preço: ${produto.preco.toFixed(2)}`;
+                listaProdutos.appendChild(item);
+            });
+        }
+    </script>
 </body>
 </html>
